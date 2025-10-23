@@ -17,7 +17,7 @@
         <!-- Contenido: texto y cards -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="1088dp"
             android:orientation="vertical"
             android:paddingHorizontal="44dp"
             android:paddingTop="72dp">
@@ -162,12 +162,44 @@
                         android:text="Ver Citas" />
                 </LinearLayout>
             </LinearLayout>
+            <!-- Fila mapa -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:id="@+id/cardVerMapa"
+                    style="@style/HadogaCardButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="24dp"
+                    android:paddingVertical="12dp">
 
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:background="@drawable/bg_icon_circle"
+                        android:padding="12dp"
+                        android:src="@drawable/ic_maps"
+                        android:tint="#000000" />
+
+                    <TextView
+                        style="@style/HadogaCardText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="Ver Mapa" />
+                </LinearLayout>
+            </LinearLayout>
             <!-- Tercera Fila -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="90dp"
+                android:layout_marginTop="50dp"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:translationY="0dp"
