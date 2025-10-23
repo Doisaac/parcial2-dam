@@ -8,5 +8,13 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
+    <!-- SplashScreen -->
+    <style name="Theme.Hadoga.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenAnimatedIcon">@drawable/hadoga_logo</item>
+        <item name="windowSplashScreenBackground">@color/colorBackground</item>
+        <item name="windowSplashScreenAnimationDuration">300</item>
+        <item name="postSplashScreenTheme">@style/Theme.Hadoga</item>
+    </style>
+
     <style name="Theme.Hadoga" parent="Base.Theme.Hadoga" />
 </resources>
