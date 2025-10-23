@@ -117,7 +117,7 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        // Si hay conexión: verificar primero local, luego Firestore si se desea
+        // Si hay conexión: verificar primero local, luego en firestore
         Usuario localUser = db.usuarioDao().login(email, password);
         if (localUser != null) {
             Toast.makeText(this, "Inicio de sesión exitoso (modo local + red disponible)", Toast.LENGTH_SHORT).show();
@@ -125,12 +125,12 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        // Solo si quieres validar con Firestore directamente (opcional)
+        // Valida en firestore en caso error en base local
         firestore.collection("usuarios").document(email).get().addOnSuccessListener(documentSnapshot -> {
             if (documentSnapshot.exists()) {
                 String storedPassword = documentSnapshot.getString("contrasena");
                 if (storedPassword != null && storedPassword.equals(password)) {
-                    Toast.makeText(this, "Inicio de sesión correcto (desde nube)", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Inicio de sesión correcto (desde firebase)", Toast.LENGTH_SHORT).show();
                     onLoginSuccess(localUser);
                 } else {
                     Toast.makeText(this, "Contraseña incorrecta", Toast.LENGTH_SHORT).show();
