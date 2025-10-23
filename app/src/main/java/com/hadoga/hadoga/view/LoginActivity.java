@@ -165,6 +165,7 @@ public class LoginActivity extends AppCompatActivity {
         showSnackbarLikeToast("Bienvenido, " + user.getNombreClinica(), false);
 
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        intent.putExtra("email", user.getEmail());
         startActivity(intent);
         finish();
     }

@@ -4,7 +4,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/colorBackground">
+    android:background="@color/colorBackground"
+    android:fitsSystemWindows="true">
+
+    <!-- Toolbar superior -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorBackground"
+        android:elevation="4dp"
+        app:titleTextColor="@color/colorWhite"
+        app:subtitleTextColor="@color/colorGrayText"
+        app:navigationIconTint="@color/colorWhite"
+        app:menu="@menu/menu_toolbar" />
 
     <!-- Contenedor para fragmentos -->
     <FrameLayout
