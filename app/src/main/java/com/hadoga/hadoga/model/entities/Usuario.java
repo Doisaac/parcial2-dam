@@ -24,7 +24,7 @@ public class Usuario {
     private String contrasena;
 
     @ColumnInfo(name = "sync_status")
-    private String syncStatus; // "SYNCED" o "PENDING"
+    private String syncStatus;
 
     public String getSyncStatus() { return syncStatus; }
 
