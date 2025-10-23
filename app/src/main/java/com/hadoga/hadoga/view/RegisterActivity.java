@@ -7,8 +7,13 @@ import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Patterns;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -16,7 +21,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.hadoga.hadoga.R;
 import com.hadoga.hadoga.model.database.HadogaDatabase;
@@ -145,7 +152,9 @@ public class RegisterActivity extends AppCompatActivity {
         if (!isNetworkAvailable()) {
             // Guardar localmente si no hay red
             new Thread(() -> db.usuarioDao().insert(nuevo)).start();
-            Toast.makeText(this, "Sin conexión. Usuario guardado localmente (pendiente de sincronizar)", Toast.LENGTH_LONG).show();
+
+            showSnackbarLikeToast("Usuario guardado localmente, pendiente de sincronizar a la nube");
+
             goToLogin();
             return;
         }
@@ -159,12 +168,12 @@ public class RegisterActivity extends AppCompatActivity {
                         nuevo.setSyncStatus("SINCRONIZADO");
                         db.usuarioDao().insert(nuevo);
                     }).start();
-                    Toast.makeText(this, "Usuario registrado correctamente", Toast.LENGTH_SHORT).show();
+                    showSnackbarLikeToast("Usuario registrado correctamente");
                     goToLogin();
                 })
                 .addOnFailureListener(e -> {
                     new Thread(() -> db.usuarioDao().insert(nuevo)).start();
-                    Toast.makeText(this, "Guardado localmente (pendiente de sincronizar)", Toast.LENGTH_LONG).show();
+                    showSnackbarLikeToast("Usuario guardado localmente, pendiente de sincronizar a la nube");
                     goToLogin();
                 });
     }
@@ -173,6 +182,20 @@ public class RegisterActivity extends AppCompatActivity {
         Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    private void showSnackbarLikeToast(String message) {
+        LayoutInflater inflater = getLayoutInflater();
+        View layout = inflater.inflate(R.layout.custom_toast, null);
+
+        TextView text = layout.findViewById(R.id.toast_message);
+        text.setText(message);
+
+        Toast toast = new Toast(getApplicationContext());
+        toast.setDuration(Toast.LENGTH_LONG);
+        toast.setView(layout);
+        toast.setGravity(Gravity.BOTTOM, 0, 120);
+        toast.show();
     }
 
 }

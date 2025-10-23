@@ -3,6 +3,7 @@ package com.hadoga.hadoga.view;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.GradientDrawable;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
@@ -10,6 +11,9 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -17,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.hadoga.hadoga.R;
@@ -109,10 +114,10 @@ public class LoginActivity extends AppCompatActivity {
             // Login local (modo sin conexión)
             Usuario localUser = db.usuarioDao().login(email, password);
             if (localUser != null) {
-                Toast.makeText(this, "Inicio de sesión local (sin conexión)", Toast.LENGTH_SHORT).show();
+                showSnackbarLikeToast("Inicio de sesión sin conexión", false);
                 onLoginSuccess(localUser);
             } else {
-                Toast.makeText(this, "Credenciales inválidas o usuario no registrado localmente", Toast.LENGTH_LONG).show();
+                showSnackbarLikeToast("Credenciales inválidas o usuario no registrado localmente", true);
             }
             return;
         }
@@ -120,7 +125,7 @@ public class LoginActivity extends AppCompatActivity {
         // Si hay conexión: verificar primero local, luego en firestore
         Usuario localUser = db.usuarioDao().login(email, password);
         if (localUser != null) {
-            Toast.makeText(this, "Inicio de sesión exitoso (modo local + red disponible)", Toast.LENGTH_SHORT).show();
+            showSnackbarLikeToast("Inicio de sesión con conexión exitoso", false);
             onLoginSuccess(localUser);
             return;
         }
@@ -130,16 +135,16 @@ public class LoginActivity extends AppCompatActivity {
             if (documentSnapshot.exists()) {
                 String storedPassword = documentSnapshot.getString("contrasena");
                 if (storedPassword != null && storedPassword.equals(password)) {
-                    Toast.makeText(this, "Inicio de sesión correcto (desde firebase)", Toast.LENGTH_SHORT).show();
+                    showSnackbarLikeToast( "Inicio de sesión desde firebase correcto", false);
                     onLoginSuccess(localUser);
                 } else {
-                    Toast.makeText(this, "Contraseña incorrecta", Toast.LENGTH_SHORT).show();
+                    showSnackbarLikeToast( "Contraseña incorrecta", true);
                 }
             } else {
-                Toast.makeText(this, "Usuario no encontrado", Toast.LENGTH_SHORT).show();
+                showSnackbarLikeToast( "Usuario no encontrado", true);
             }
         }).addOnFailureListener(e -> {
-            Toast.makeText(this, "Error al conectar con servidor", Toast.LENGTH_SHORT).show();
+            showSnackbarLikeToast("Error al conectar con servidor", true);
         });
     }
 
@@ -150,7 +155,7 @@ public class LoginActivity extends AppCompatActivity {
             clearUserCredentials();
         }
 
-        Toast.makeText(this, "Bienvenido, " + user.getNombreClinica(), Toast.LENGTH_SHORT).show();
+        showSnackbarLikeToast("Bienvenido, " + user.getNombreClinica(), false);
 
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(intent);
@@ -185,4 +190,27 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    private void showSnackbarLikeToast(String message, boolean isError) {
+        LayoutInflater inflater = getLayoutInflater();
+        View layout = inflater.inflate(R.layout.custom_toast, null);
+
+        TextView text = layout.findViewById(R.id.toast_message);
+        text.setText(message);
+
+        int backgroundColor = isError
+                ? ContextCompat.getColor(this, android.R.color.holo_red_dark)
+                : ContextCompat.getColor(this, R.color.colorBlue);
+
+        // Crear fondo redondeado
+        GradientDrawable background = new GradientDrawable();
+        background.setCornerRadius(24f);
+        background.setColor(backgroundColor);
+        layout.setBackground(background);
+
+        Toast toast = new Toast(getApplicationContext());
+        toast.setDuration(Toast.LENGTH_LONG);
+        toast.setView(layout);
+        toast.setGravity(Gravity.BOTTOM, 0, 120);
+        toast.show();
+    }
 }
