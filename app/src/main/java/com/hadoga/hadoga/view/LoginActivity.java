@@ -135,16 +135,23 @@ public class LoginActivity extends AppCompatActivity {
             if (documentSnapshot.exists()) {
                 String storedPassword = documentSnapshot.getString("contrasena");
                 if (storedPassword != null && storedPassword.equals(password)) {
-                    showSnackbarLikeToast( "Inicio de sesión desde firebase correcto", false);
-                    onLoginSuccess(localUser);
+                    // Crear objeto Usuario desde Firestore
+                    String nombre = documentSnapshot.getString("nombre");
+                    Usuario user = new Usuario(nombre, email, password, "SINCRONIZADO");
+
+                    // Guardar en Room
+                    new Thread(() -> db.usuarioDao().insert(user)).start();
+
+                    showSnackbarLikeToast("Inicio de sesión correcto (desde nube)", false);
+                    onLoginSuccess(user);
                 } else {
-                    showSnackbarLikeToast( "Contraseña incorrecta", true);
+                    showSnackbarLikeToast("Contraseña incorrecta", true);
                 }
             } else {
-                showSnackbarLikeToast( "Usuario no encontrado", true);
+                showSnackbarLikeToast("Usuario no encontrado", true);
             }
         }).addOnFailureListener(e -> {
-            showSnackbarLikeToast("Error al conectar con servidor", true);
+            showSnackbarLikeToast("Error al conectar con el servidor", true);
         });
     }
 
@@ -197,9 +204,7 @@ public class LoginActivity extends AppCompatActivity {
         TextView text = layout.findViewById(R.id.toast_message);
         text.setText(message);
 
-        int backgroundColor = isError
-                ? ContextCompat.getColor(this, android.R.color.holo_red_dark)
-                : ContextCompat.getColor(this, R.color.colorBlue);
+        int backgroundColor = isError ? ContextCompat.getColor(this, android.R.color.holo_red_dark) : ContextCompat.getColor(this, R.color.colorBlue);
 
         // Crear fondo redondeado
         GradientDrawable background = new GradientDrawable();
