@@ -184,7 +184,7 @@
                         android:layout_height="48dp"
                         android:background="@drawable/bg_icon_circle"
                         android:padding="12dp"
-                        android:src="@drawable/ic_maps"
+                        android:src="@drawable/ic_location"
                         android:tint="#000000" />
 
                     <TextView
