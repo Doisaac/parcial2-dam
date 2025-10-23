@@ -17,7 +17,7 @@ import com.hadoga.hadoga.model.entities.Usuario;
 public class PerfilActivity extends AppCompatActivity {
 
     private EditText inputNombre;
-    private TextView textNombreActual, textEditarTitulo;
+    private TextView textNombreActual;
     private Button btnGuardar, btnRegresar;
     private HadogaDatabase db;
     private FirebaseFirestore firestore;
@@ -30,18 +30,19 @@ public class PerfilActivity extends AppCompatActivity {
 
         inputNombre = findViewById(R.id.inputNombre);
         textNombreActual = findViewById(R.id.textNombreActual);
-        textEditarTitulo = findViewById(R.id.textEditarTitulo);
         btnGuardar = findViewById(R.id.btnGuardarNombre);
         btnRegresar = findViewById(R.id.btnRegresar);
 
         db = HadogaDatabase.getInstance(this);
         firestore = FirebaseFirestore.getInstance();
 
+        // Recuperar el usuario actual por su email
         String email = getIntent().getStringExtra("email");
         if (email != null) {
             usuario = db.usuarioDao().findByEmail(email);
         }
 
+        // Mostrar el nombre actual
         if (usuario != null) {
             textNombreActual.setText("Nombre actual: " + usuario.getNombreClinica());
         }
@@ -53,21 +54,28 @@ public class PerfilActivity extends AppCompatActivity {
     private void guardarCambios() {
         String nuevoNombre = inputNombre.getText().toString().trim();
 
-        if (TextUtils.isEmpty(nuevoNombre) || nuevoNombre.length() < 7) {
-            inputNombre.setError("Debe tener al menos 7 caracteres");
+        if (TextUtils.isEmpty(nuevoNombre) || nuevoNombre.length() < 3) {
+            inputNombre.setError("Debe tener al menos 3 caracteres");
             return;
         }
 
+        if (usuario == null) {
+            Toast.makeText(this, "Usuario no encontrado en la base local", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        //  Actualizar localmente en Room
         usuario.setNombreClinica(nuevoNombre);
         new Thread(() -> db.usuarioDao().update(usuario)).start();
 
+        //  Actualizar en Firestore (en la nube)
         firestore.collection("usuarios")
                 .document(usuario.getEmail())
                 .update("nombre", nuevoNombre)
                 .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(this, "Nombre actualizado correctamente", Toast.LENGTH_SHORT).show();
                     textNombreActual.setText("Nombre actual: " + nuevoNombre);
                     inputNombre.setText("");
+                    Toast.makeText(this, "Nombre actualizado (local + nube)", Toast.LENGTH_SHORT).show();
                 })
                 .addOnFailureListener(e ->
                         Toast.makeText(this, "Error al sincronizar con la nube", Toast.LENGTH_SHORT).show());
