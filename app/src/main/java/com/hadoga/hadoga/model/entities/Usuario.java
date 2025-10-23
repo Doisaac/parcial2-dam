@@ -23,11 +23,19 @@ public class Usuario {
     @ColumnInfo(name = "contrasena")
     private String contrasena;
 
+    @ColumnInfo(name = "sync_status")
+    private String syncStatus; // "SYNCED" o "PENDING"
+
+    public String getSyncStatus() { return syncStatus; }
+
+    public void setSyncStatus(String syncStatus) { this.syncStatus = syncStatus; }
+
     // Constructor con parámetros
-    public Usuario(String nombreClinica, String email, String contrasena) {
+    public Usuario(String nombreClinica, String email, String contrasena, String syncStatus) {
         this.nombreClinica = nombreClinica;
         this.email = email;
         this.contrasena = contrasena;
+        this.syncStatus = syncStatus;
     }
 
     // Getters y setters del usuario

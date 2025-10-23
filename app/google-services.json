@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "679759014883",
+    "project_id": "hadoga-parcial",
+    "storage_bucket": "hadoga-parcial.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:679759014883:android:b565d183a0452d578cced6",
+        "android_client_info": {
+          "package_name": "com.hadoga.hadoga"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvw8RdRJ7gZBImwFjp9pKpVCOs6WhThy0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
