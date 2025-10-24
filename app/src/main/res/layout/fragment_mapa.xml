@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><!-- 1. Cambia FrameLayout por LinearLayout y añade orientación vertical -->
+<?xml version="1.0" encoding="utf-8"?><!-- LinearLayout y añade orientación vertical -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -12,10 +12,10 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorBackground"
         android:elevation="4dp"
-        android:theme="@style/Theme.Hadoga"
-        app:popupTheme="@style/Theme.Hadoga"
-        app:titleTextColor="@color/colorWhite" />
+        app:titleTextColor="@color/colorWhite"
+        app:popupTheme="@style/Theme.Material3.Dark" />
 
     <!-- FragmentContainerView es la práctica recomendada -->
     <androidx.fragment.app.FragmentContainerView
