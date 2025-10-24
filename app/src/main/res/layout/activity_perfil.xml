@@ -1,69 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/colorBackground"
-    android:padding="24dp"
-    android:gravity="center_horizontal"
     android:fitsSystemWindows="true"
     tools:context=".view.PerfilActivity">
 
-    <!-- Botón de regresar -->
-    <Button
-        android:id="@+id/btnRegresar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="← Regresar"
-        android:textColor="@color/colorWhite"
-        android:backgroundTint="@color/colorPurple"
-        android:layout_gravity="start"
-        android:paddingHorizontal="16dp"
-        android:layout_marginBottom="24dp" />
-
-    <!-- Nombre actual -->
-    <TextView
-        android:id="@+id/textNombreActual"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Nombre actual:"
-        android:textColor="@color/colorWhite"
-        android:textSize="18sp"
-        android:layout_marginBottom="8dp"
-        android:textStyle="bold" />
-
-    <!-- Título -->
-    <TextView
-        android:id="@+id/textEditarTitulo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Editar nombre"
-        android:textColor="@color/colorBlue"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="12dp" />
-
-    <!-- Campo para nuevo nombre -->
-    <EditText
-        android:id="@+id/inputNombre"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Nuevo nombre"
-        android:textColorHint="@color/colorGrayText"
-        android:textColor="@color/colorWhite"
-        android:backgroundTint="@color/colorBlue"
-        android:inputType="textPersonName"
-        android:padding="12dp" />
+        android:orientation="vertical"
+        android:paddingTop="24dp">
 
-    <!-- Botón guardar -->
-    <Button
-        android:id="@+id/btnGuardarNombre"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Guardar cambios"
-        android:backgroundTint="@color/colorPurple"
-        android:textColor="@color/colorWhite"
-        android:layout_marginTop="24dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@color/colorBackground"
+            android:paddingTop="24dp"
+            android:paddingHorizontal="44dp"
+            android:gravity="top"
+            android:fitsSystemWindows="true"
+            tools:context=".view.PerfilActivity">
+
+            <!-- Botón de regresar -->
+            <Button
+                android:id="@+id/btnRegresar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="← Regresar"
+                android:textColor="@color/colorWhite"
+                android:backgroundTint="@color/colorPurple"
+                android:layout_gravity="start"
+                android:paddingHorizontal="16dp"
+                android:layout_marginBottom="24dp" />
+
+            <!-- Nombre actual -->
+            <TextView
+                android:id="@+id/textNombreActual"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nombre actual:"
+                android:textColor="@color/colorWhite"
+                android:textSize="18sp"
+                android:layout_marginBottom="8dp"
+                android:textStyle="bold" />
+
+            <!-- Estado de sincronización -->
+            <TextView
+                android:id="@+id/textEstadoSync"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Estado: SINCRONIZADO"
+                android:textColor="@color/colorGrayText"
+                android:textSize="16sp"
+                android:layout_marginBottom="20dp"
+                android:textStyle="italic" />
+
+            <!-- Título -->
+            <TextView
+                android:id="@+id/textEditarTitulo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Editar nombre"
+                android:textColor="@color/colorBlue"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="12dp" />
+
+            <!-- Campo para nuevo nombre -->
+            <EditText
+                android:id="@+id/inputNombre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Nuevo nombre"
+                android:textColorHint="@color/colorGrayText"
+                android:textColor="@color/colorWhite"
+                android:backgroundTint="@color/colorBlue"
+                android:inputType="textPersonName"
+                android:padding="12dp" />
+
+            <!-- Botón sincronizar -->
+            <Button
+                android:id="@+id/btnSincronizar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sincronizar ahora"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="@color/colorBlue"
+                android:textColor="@color/colorWhite" />
+
+            <!-- Botón guardar -->
+            <Button
+                android:id="@+id/btnGuardarNombre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Guardar cambios"
+                android:backgroundTint="@color/colorPurple"
+                android:textColor="@color/colorWhite"
+                android:layout_marginTop="24dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </LinearLayout>
