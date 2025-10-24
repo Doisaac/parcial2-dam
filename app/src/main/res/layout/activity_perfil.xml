@@ -33,6 +33,17 @@
         android:layout_marginBottom="8dp"
         android:textStyle="bold" />
 
+    <!-- Estado de sincronización -->
+    <TextView
+        android:id="@+id/textEstadoSync"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Estado: SINCRONIZADO"
+        android:textColor="@color/colorGrayText"
+        android:textSize="16sp"
+        android:layout_marginBottom="20dp"
+        android:textStyle="italic" />
+
     <!-- Título -->
     <TextView
         android:id="@+id/textEditarTitulo"
@@ -55,6 +66,16 @@
         android:backgroundTint="@color/colorBlue"
         android:inputType="textPersonName"
         android:padding="12dp" />
+
+    <!-- Botón sincronizar -->
+    <Button
+        android:id="@+id/btnSincronizar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sincronizar ahora"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/colorBlue"
+        android:textColor="@color/colorWhite" />
 
     <!-- Botón guardar -->
     <Button
