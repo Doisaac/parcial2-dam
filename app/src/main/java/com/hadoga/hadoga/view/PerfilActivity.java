@@ -115,6 +115,7 @@ public class PerfilActivity extends AppCompatActivity {
             }).start();
 
             runOnUiThread(() -> {
+                textNombreActual.setText("Nombre actual: " + usuario.getNombreClinica());
                 textEstadoSync.setText("Estado: PENDIENTE");
                 Toast.makeText(this, "Sin conexión. Guardado localmente (PENDIENTE)", Toast.LENGTH_SHORT).show();
             });
