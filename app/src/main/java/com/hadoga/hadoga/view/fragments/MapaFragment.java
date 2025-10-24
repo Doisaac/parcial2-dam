@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.widget.Toolbar;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -85,5 +86,17 @@ public class MapaFragment extends Fragment implements OnMapReadyCallback {
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
         mMap.getUiSettings().setAllGesturesEnabled(true);
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).hide();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).show();
     }
 }
