@@ -42,27 +42,13 @@
             android:layout_marginBottom="35dp"
             android:text="Completa los siguientes campos" />
 
-        <!-- Campo Nombre de clínica -->
-        <TextView
-            style="@style/FieldTitleText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp"
-            android:text="Nombre de clínica" />
-
-        <EditText
-            android:id="@+id/inputClinicName"
-            style="@style/HadogaEditText"
-            android:layout_marginBottom="16dp"
-            android:hint="HADOGA Santa Ana" />
-
         <!-- Campo Email -->
         <TextView
             style="@style/FieldTitleText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="6dp"
-            android:text="Email" />
+            android:text="Correo" />
 
         <EditText
             android:id="@+id/inputEmail"
@@ -70,6 +56,20 @@
             android:layout_marginBottom="16dp"
             android:hint="hadogasantana@gmail.com"
             android:inputType="textEmailAddress" />
+
+        <!-- Campo Nombre Completo -->
+        <TextView
+            style="@style/FieldTitleText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"
+            android:text="Nombre Completo" />
+
+        <EditText
+            android:id="@+id/inputFullName"
+            style="@style/HadogaEditText"
+            android:layout_marginBottom="16dp"
+            android:hint="Juan Jose Flores Mira" />
 
         <!-- Campo Contraseña -->
         <TextView

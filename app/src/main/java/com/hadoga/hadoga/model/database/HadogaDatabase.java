@@ -15,7 +15,7 @@ import com.hadoga.hadoga.model.entities.Paciente;
 import com.hadoga.hadoga.model.entities.Sucursal;
 import com.hadoga.hadoga.model.entities.Usuario;
 
-@Database(entities = {Usuario.class, Sucursal.class, Doctor.class, Paciente.class}, version = 4)
+@Database(entities = {Usuario.class, Sucursal.class, Doctor.class, Paciente.class}, version = 5)
 public abstract class HadogaDatabase extends RoomDatabase {
     private static volatile HadogaDatabase INSTANCIADB;
 

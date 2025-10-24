@@ -45,6 +45,8 @@ public class DashboardFragment extends Fragment {
 
         view.findViewById(R.id.cardVerSucursales).setOnClickListener(v -> navigateTo(new ListaSucursalesFragment()));
 
+        view.findViewById(R.id.cardVerMapa).setOnClickListener(v -> navigateTo(new MapaFragment()));
+
         // Botón de cerrar sesión
         view.findViewById(R.id.btnCerrarSesion).setOnClickListener(v -> {
             Intent intent = new Intent(requireContext(), LoginActivity.class);

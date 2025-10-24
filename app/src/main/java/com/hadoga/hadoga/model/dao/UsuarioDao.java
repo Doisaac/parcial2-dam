@@ -26,4 +26,11 @@ public interface UsuarioDao {
 
     @Query("SELECT * FROM usuarios")
     List<Usuario> getAllUsuarios();
+
+    @Query("SELECT * FROM usuarios WHERE sync_status = 'PENDIENTE'")
+    List<Usuario> getPendingUsuarios();
+
+    @Query("SELECT * FROM usuarios WHERE email = :email LIMIT 1")
+    Usuario findByEmail(String email);
+
 }

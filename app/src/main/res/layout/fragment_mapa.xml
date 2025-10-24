@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?><!-- 1. Cambia FrameLayout por LinearLayout y añade orientación vertical -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".view.fragments.MapaFragment">
+
+    <!-- Toolbar como primer elemento -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:elevation="4dp"
+        android:theme="@style/Theme.Hadoga"
+        app:popupTheme="@style/Theme.Hadoga"
+        app:titleTextColor="@color/colorWhite" />
+
+    <!-- FragmentContainerView es la práctica recomendada -->
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>
+
+
