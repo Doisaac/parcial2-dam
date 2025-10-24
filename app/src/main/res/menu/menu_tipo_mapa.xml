@@ -5,6 +5,7 @@
     <item
         android:id="@+id/menu_overflow"
         android:icon="@drawable/ic_maps"
+        android:theme="@style/Theme.Hadoga"
         android:title="Mapas"
         app:showAsAction="ifRoom"> <!-- Esto hace que aparezca el menú O.O -->
 
