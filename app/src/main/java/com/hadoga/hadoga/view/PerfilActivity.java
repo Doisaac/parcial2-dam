@@ -69,8 +69,8 @@ public class PerfilActivity extends AppCompatActivity {
     private void guardarCambios() {
         String nuevoNombre = inputNombre.getText().toString().trim();
 
-        if (TextUtils.isEmpty(nuevoNombre) || nuevoNombre.length() < 3) {
-            inputNombre.setError("Debe tener al menos 3 caracteres");
+        if (TextUtils.isEmpty(nuevoNombre) || nuevoNombre.length() < 7) {
+            inputNombre.setError("Debe tener al menos 7 caracteres");
             return;
         }
 
