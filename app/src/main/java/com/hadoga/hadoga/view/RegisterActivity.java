@@ -146,7 +146,7 @@ public class RegisterActivity extends AppCompatActivity {
         userMap.put("nombre", fullName);
         userMap.put("email", email);
         userMap.put("contrasena", password);
-        userMap.put("sync_status", "SINCRONIZADO");
+        userMap.put("estado", "SINCRONIZADO");
 
         // Verificar conexión
         if (!isNetworkAvailable()) {
@@ -165,7 +165,7 @@ public class RegisterActivity extends AppCompatActivity {
                 .set(userMap)
                 .addOnSuccessListener(aVoid -> {
                     new Thread(() -> {
-                        nuevo.setSyncStatus("SINCRONIZADO");
+                        nuevo.setEstado("SINCRONIZADO");
                         db.usuarioDao().insert(nuevo);
                     }).start();
                     showSnackbarLikeToast("Usuario registrado correctamente");
