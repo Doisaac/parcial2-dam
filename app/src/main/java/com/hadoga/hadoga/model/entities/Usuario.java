@@ -24,18 +24,18 @@ public class Usuario {
     private String contrasena;
 
     @ColumnInfo(name = "sync_status")
-    private String syncStatus;
+    private String estado;
 
-    public String getSyncStatus() { return syncStatus; }
+    public String getEstado() { return estado; }
 
-    public void setSyncStatus(String syncStatus) { this.syncStatus = syncStatus; }
+    public void setEstado(String estado) { this.estado = estado; }
 
     // Constructor con parámetros
-    public Usuario(String nombreClinica, String email, String contrasena, String syncStatus) {
+    public Usuario(String nombreClinica, String email, String contrasena, String estado) {
         this.nombreClinica = nombreClinica;
         this.email = email;
         this.contrasena = contrasena;
-        this.syncStatus = syncStatus;
+        this.estado = estado;
     }
 
     // Getters y setters del usuario

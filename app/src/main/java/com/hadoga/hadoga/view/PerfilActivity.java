@@ -54,7 +54,7 @@ public class PerfilActivity extends AppCompatActivity {
         //  Mostrar nombre actual y estado
         if (usuario != null) {
             textNombreActual.setText("Nombre actual: " + usuario.getNombreClinica());
-            textEstadoSync.setText("Estado: " + usuario.getSyncStatus());
+            textEstadoSync.setText("Estado: " + usuario.getEstado());
         }
 
         //  Botones
@@ -69,14 +69,8 @@ public class PerfilActivity extends AppCompatActivity {
     private void guardarCambios() {
         String nuevoNombre = inputNombre.getText().toString().trim();
 
-        // Validación: nombre debe tener más de 7 caracteres
         if (TextUtils.isEmpty(nuevoNombre) || nuevoNombre.length() < 7) {
             inputNombre.setError("Debe tener al menos 7 caracteres");
-            return;
-        }
-
-        if (TextUtils.isEmpty(nuevoNombre) || nuevoNombre.length() < 3) {
-            inputNombre.setError("Debe tener al menos 3 caracteres");
             return;
         }
 
@@ -89,7 +83,7 @@ public class PerfilActivity extends AppCompatActivity {
 
         if (isNetworkAvailable()) {
             // Actualizar primero el estado local
-            usuario.setSyncStatus("SINCRONIZADO");
+            usuario.setEstado("SINCRONIZADO");
             new Thread(() -> db.usuarioDao().update(usuario)).start();
 
             // Luego subir el objeto ya actualizado a Firestore
@@ -103,7 +97,7 @@ public class PerfilActivity extends AppCompatActivity {
                         Toast.makeText(this, "Nombre actualizado (local + nube)", Toast.LENGTH_SHORT).show();
                     }))
                     .addOnFailureListener(e -> {
-                        usuario.setSyncStatus("PENDIENTE");
+                        usuario.setEstado("PENDIENTE");
                         new Thread(() -> db.usuarioDao().update(usuario)).start();
 
                         runOnUiThread(() -> {
@@ -113,15 +107,10 @@ public class PerfilActivity extends AppCompatActivity {
                     });
         } else {
             //  Sin conexión → solo guardar localmente
-            usuario.setSyncStatus("PENDIENTE");
-            new Thread(() -> {
-                db.usuarioDao().update(usuario);
-                // Recargar desde la base local para tener la versión más actualizada
-                usuario = db.usuarioDao().findByEmail(usuario.getEmail());
-            }).start();
+            usuario.setEstado("PENDIENTE");
+            new Thread(() -> db.usuarioDao().update(usuario)).start();
 
             runOnUiThread(() -> {
-                textNombreActual.setText("Nombre actual: " + usuario.getNombreClinica());
                 textEstadoSync.setText("Estado: PENDIENTE");
                 Toast.makeText(this, "Sin conexión. Guardado localmente (PENDIENTE)", Toast.LENGTH_SHORT).show();
             });
@@ -146,32 +135,45 @@ public class PerfilActivity extends AppCompatActivity {
                 return;
             }
 
-            for (Usuario u : pendientes) {
-                // Obtener la versión más actualizada desde la base local
-                Usuario usuarioActualizado = db.usuarioDao().findByEmail(u.getEmail());
-                if (usuarioActualizado == null) continue;
+            final int totalPendientes = pendientes.size();
+            final int[] completadas = {0};
 
-                usuarioActualizado.setSyncStatus("SINCRONIZADO");
-                db.usuarioDao().update(usuarioActualizado);
+            for (Usuario u : pendientes) {
+                // Cambiar estado antes de enviar a Firestore
+                u.setEstado("SINCRONIZADO");
+                new Thread(() -> db.usuarioDao().update(u)).start();
 
                 firestore.collection("usuarios")
-                        .document(usuarioActualizado.getEmail())
-                        .set(usuarioActualizado)
-                        .addOnSuccessListener(aVoid -> runOnUiThread(() -> {
-                            // Si el usuario sincronizado es el que está viendo el perfil
-                            if (usuario != null && usuario.getEmail().equals(usuarioActualizado.getEmail())) {
-                                usuario = usuarioActualizado;
-                                textNombreActual.setText("Nombre actual: " + usuario.getNombreClinica());
-                                textEstadoSync.setText("Estado: SINCRONIZADO");
-                            }
+                        .document(u.getEmail())
+                        .set(u)
+                        .addOnSuccessListener(aVoid -> {
+                            runOnUiThread(() -> {
+                                if (usuario != null && usuario.getEmail().equals(u.getEmail())) {
+                                    usuario.setEstado("SINCRONIZADO");
+                                    textEstadoSync.setText("Estado: SINCRONIZADO");
+                                }
+                                Toast.makeText(this, "Sincronizado: " + u.getEmail(), Toast.LENGTH_SHORT).show();
+                            });
 
-                            Toast.makeText(this, "Sincronizado: " + usuarioActualizado.getEmail(), Toast.LENGTH_SHORT).show();
-                        }))
+                            completadas[0]++;
+                            if (completadas[0] == totalPendientes) {
+                                runOnUiThread(() -> {
+                                    Usuario actualizado = db.usuarioDao().findByEmail(usuario.getEmail());
+                                    if (actualizado != null) {
+                                        usuario = actualizado;
+                                        textEstadoSync.setText("Estado: " + usuario.getEstado());
+                                    }
+                                    Toast.makeText(this, "Sincronización completada", Toast.LENGTH_SHORT).show();
+                                });
+                            }
+                        })
                         .addOnFailureListener(e -> {
-                            usuarioActualizado.setSyncStatus("PENDIENTE");
-                            db.usuarioDao().update(usuarioActualizado);
+                            // Si falla, revertir estado a PENDIENTE
+                            u.setEstado("PENDIENTE");
+                            new Thread(() -> db.usuarioDao().update(u)).start();
+
                             runOnUiThread(() ->
-                                    Toast.makeText(this, "Error al sincronizar: " + usuarioActualizado.getEmail(), Toast.LENGTH_SHORT).show());
+                                    Toast.makeText(this, "Error al sincronizar: " + u.getEmail(), Toast.LENGTH_SHORT).show());
                         });
             }
         }).start();
